@@ -2,20 +2,30 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Restaurant App</title>
+    <title>To Do</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../style.css">
-
   </head>
   <body>
-    <ul>
-      <li id="details">Details</li>
-      <li id="contact">Contact</li>
-      <li id="menu">Menu</li>
-    </ul>
-
-
-    <div id="content"></div>
-
+    <nav class="navbar navbar-expand navbar-light bg-light">
+      <a class="navbar-brand" href="#">To Do</a> 
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">View all Projects <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">View all Todos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Create Project</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Create Todos</a>
+          </li>
+    </nav>
+    <div id="display">
+      hi
+    </div>
 
    <script src="main.js"></script>
   </body>
