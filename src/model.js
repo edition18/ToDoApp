@@ -1,19 +1,35 @@
-class TodoItem {
-  constructor(title, description, dueDate, priority, notes, checklist) {
-    this.title = title;
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-    this.notes = notes;
-    this.checklist = checklist;
+export class Model {
+  constructor() {
+    this.projects = [
+      { name: "Test Project 1", todoList: [] },
+      { name: "Test Project 2", todoList: [] },
+      { name: "Test Project 2", todoList: [] },
+    ];
+  }
+
+  createToDo(title, description, dueDate, priority, notes, checklist) {
+    const todo = {
+      title: title,
+      description: description,
+      dueDate: dueDate,
+      priority: priority,
+      notes: notes,
+      checklist: checklist,
+    };
+
+    return todo;
+  }
+
+  createProject(name) {
+    const project = {
+      title: name,
+      todoList: [],
+    };
+
+    this.projects.push(project);
+  }
+
+  hello() {
+    console.log("hello");
   }
 }
-
-class Project {
-  constructor(name) {
-    this.name = name;
-    this.list = [];
-  }
-}
-
-export { TodoItem, Project };
