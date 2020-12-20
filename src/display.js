@@ -2,8 +2,12 @@ export const projectForm = () => {
   clearDisplay();
   let formGroup = formGroupCreate();
   formGroup.appendChild(
-    formTextElementCreate("projectName", "enter your project name")
+    formGroupDiv().appendChild(
+      formTextElementCreate("projectName", "enter your project name")
+    )
   );
+  document.getElementById("display").appendChild(formGroup);
+  console.log("yes");
 };
 
 // title, description, dueDate, priority, notes, checklist
@@ -23,8 +27,7 @@ export const createLabel = (id, name) => {
 };
 
 export const formGroupCreate = () => {
-  let formGroup = document.createElement("div");
-  formGroup.setAttribute("class", "form-group");
+  let formGroup = document.createElement("form");
   return formGroup;
 };
 
@@ -38,4 +41,10 @@ export const formTextElementCreate = (id, placeholder) => {
 
 export const clearDisplay = () => {
   document.getElementById("display").innerHTML = ``;
+};
+
+export const formGroupDiv = () => {
+  let formGroupDiv = document.createElement("div");
+  formGroupDiv.setAttribute("class", "form-group");
+  return formGroupDiv;
 };
