@@ -11,6 +11,6 @@ import {
 } from "./display.js";
 import { TodoItem, Project } from "./objects.js";
 
-let projectArray = [];
+var projectArray = [];
 
 projectForm();
