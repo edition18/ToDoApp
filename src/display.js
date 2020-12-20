@@ -1,4 +1,4 @@
-import { TodoItem, Project } from "./objects.js";
+import { TodoItem, Project } from "./model.js";
 
 export const projectForm = () => {
   clearDisplay();
@@ -65,16 +65,16 @@ export const createFormButton = (id, text, type) => {
   button.setAttribute("class", `btn-${type}`);
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    projectSubmit();
+    projectSubmit(projectArray);
   });
   return button;
 };
 
-export const projectSubmit = () => {
+export const projectSubmit = (arr) => {
   console.log(document.getElementById("projectName").value);
   let createdProject = new Project(
     document.getElementById("projectName").value
   );
-  projectArray.push(createdProject);
+  arr.push(createdProject);
   console.log(projectArray);
 };
