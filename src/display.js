@@ -65,15 +65,16 @@ export const createFormButton = (id, text, type) => {
   button.setAttribute("class", `btn-${type}`);
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    projectSubmit(projectArray);
+    projectSubmit();
   });
   return button;
 };
 
-export const projectSubmit = (projectArray) => {
+export const projectSubmit = () => {
   console.log(document.getElementById("projectName").value);
   let createdProject = new Project(
     document.getElementById("projectName").value
   );
   projectArray.push(createdProject);
+  console.log(projectArray);
 };

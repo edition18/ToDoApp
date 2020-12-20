@@ -10,7 +10,5 @@ import {
   projectSubmit,
 } from "./display.js";
 import { TodoItem, Project } from "./objects.js";
-
-var projectArray = [];
-
+const projectArray = [];
 projectForm();
