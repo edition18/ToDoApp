@@ -15,3 +15,5 @@ class Project {
     this.list = [];
   }
 }
+
+export { TodoItem, Project };

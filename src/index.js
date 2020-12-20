@@ -2,10 +2,15 @@ import {
   projectForm,
   toggleActive,
   createLabel,
-  formGroupCreate,
-  formTextElementCreate,
+  createFormGroup,
+  createFormTextElement,
   clearDisplay,
-  formGroupDiv,
+  createFormGroupDiv,
+  createFormButton,
+  projectSubmit,
 } from "./display.js";
+import { TodoItem, Project } from "./objects.js";
+
+let projectArray = [];
 
 projectForm();

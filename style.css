@@ -1,0 +1,5 @@
+#display {
+  padding: 1.5rem;
+  /* CSS padding properties are used to generate space around an element's content, inside of any defined borders.  */
+  border-width: 0.2rem;
+}
