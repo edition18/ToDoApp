@@ -1,23 +1,12 @@
 export class View {
-  constructor() {}
-  // create the view for project Form
-  displayProjectForm() {
-    clearDisplay();
-    let divElements = [];
-    divElements.push(createLabel("projectName", "Project Name"));
-    divElements.push(
-      createFormTextElement("projectName", "create project name")
-    );
-    let formDiv = createFormGroupDiv();
-    let formGroup = createFormGroup();
-
-    divElements.map(function (item) {
-      formDiv.append(item);
-    });
-
-    formGroup.appendChild(formDiv);
-    formGroup.appendChild(createFormButton("projectName", "Submit", "primary"));
-    document.getElementById("display").appendChild(formGroup);
+  constructor() {
+    this.pages = [
+      "linkViewAllProjects",
+      "linkViewAllTodos",
+      "linkCreateProjectForm",
+      "linkCreateTodosForm",
+    ];
+    this.currentPage = null;
   }
 
   // bindModelAction(element, eventType, handlerCallback) {
@@ -51,11 +40,17 @@ export class View {
     return formGroupDiv;
   }
 
-  toggleActive(element) {
-    // note the use of .classList method
-    element.classList.contains("active")
-      ? element.classList.remove("active")
-      : element.setAttribute("class", "active");
+  toggleActive() {
+    console.log(this.pages);
+    this.pages.map((page) => {
+      console.log(page);
+      let element = document.getElementById(`${page}`);
+      element.classList.contains("active")
+        ? element.classList.remove("active")
+        : "";
+    });
+    let currentElement = document.getElementById(`${this.currentPage}`);
+    currentElement.classList.add("active");
   }
 
   createFormGroup() {
@@ -80,6 +75,8 @@ export class View {
   }
 
   displayProjects(projects) {
+    this.currentPage = "linkViewAllProjects";
+    this.toggleActive();
     this.clearDisplay();
     projects.map((project) => {
       let subitem = document.createElement("div");
@@ -87,5 +84,39 @@ export class View {
       document.getElementById("display").appendChild(subitem);
       console.log(project);
     });
+  }
+
+  viewAllToDos(projects) {
+    this.clearDisplay();
+    let divElements = [];
+    // collect all todos into a collection
+    projects.map((project) =>
+      project.todos.map((todo) => {
+        divElements.push(todo);
+      })
+    );
+  }
+
+  createProjectForm() {
+    this.currentPage = "linkCreateProjectForm";
+    this.toggleActive();
+    this.clearDisplay();
+    let divElements = [];
+    divElements.push(this.createLabel("projectName", "Project Name"));
+    divElements.push(
+      this.createFormTextElement("projectName", "create project name")
+    );
+    let formDiv = this.createFormGroupDiv();
+    let formGroup = this.createFormGroup();
+
+    divElements.map(function (item) {
+      formDiv.append(item);
+    });
+
+    formGroup.appendChild(formDiv);
+    formGroup.appendChild(
+      this.createFormButton("projectName", "Submit", "primary")
+    );
+    document.getElementById("display").appendChild(formGroup);
   }
 }
