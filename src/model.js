@@ -42,11 +42,12 @@ export class Model {
 
   createProject(name) {
     const project = {
-      title: name,
+      name: name,
       todoList: [],
     };
-
+    console.log(project);
     this.projects.push(project);
+    console.log(this.projects);
   }
 
   hello() {

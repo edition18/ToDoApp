@@ -34,49 +34,39 @@ export class Controller {
       .addEventListener("click", function (event) {
         event.preventDefault();
         controllerObject.createProjectHandler();
-        console.log("test");
       });
   }
 
   createProjectHandler() {
-    let projectName = document.getElementById("projectName").value;
+    let projectName = document.getElementById("projectCreateName").value;
     console.log(projectName);
     console.log("test");
-    document
-      .getElementById("projectNameButton")
-      .addEventListener("click", function (event) {
-        event.preventDefault();
-        if (document.getElementById("projectName").value !== ``) {
-          //check if already exists in array
-          if (
-            this.checkProjectExists(
-              projectName,
-              controllerObject.model.projects
-            )
-          ) {
-            this.addToProjects(projectName);
-            alert("project created");
-            projectName.value = ``;
-          } else {
-            console.log(`project already exists! add another project name!`);
-          }
+    if (projectName !== ``) {
+      //check if already exists in array
+      if (this.checkProjectExists(projectName, this.model.projects)) {
+        console.log(`project already exists! add another project name!`);
+      } else {
+        this.addToProjects(projectName, this);
+        alert("project created");
+        projectName = " ";
+      }
 
-          // return error if so
-          // if not then add to array
-          // show alert that added succesfull
-        } else {
-          alert("please enter a project name");
-        }
-      });
+      // return error if so
+      // if not then add to array
+      // show alert that added succesfull
+    } else {
+      alert("please enter a project name");
+    }
   }
 
   checkProjectExists(projectName, projectsArray) {
     let listOfProjectNames = [];
     projectsArray.map((project) => listOfProjectNames.push(project.name));
-    return listOfProjectNames.includes(str.trim(projectName)) ? true : false;
+    console.log(listOfProjectNames);
+    return listOfProjectNames.includes(projectName.trim()) ? true : false;
   }
 
-  addToProjects(projectName) {
-    controllerObject.model.projects.createProject(projectName);
+  addToProjects(projectName, controllerObject) {
+    controllerObject.model.createProject(projectName);
   }
 }
