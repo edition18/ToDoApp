@@ -8,30 +8,33 @@ export class Controller {
   }
 
   start(controllerObject) {
-    this.linkViewAllProjects(controllerObject);
-    this.linkCreateProjectForm(controllerObject);
-  }
+    // add listeners for all of the buttons so that no error is thrown
 
-  linkViewAllProjects(controllerObject) {
     document
       .getElementById("linkViewAllProjects")
       .addEventListener("click", function () {
-        controllerObject.view.displayProjects(controllerObject.model.projects);
+        controllerObject.linkViewAllProjects(controllerObject);
+      });
+    document
+      .getElementById("linkCreateProjectForm")
+      .addEventListener("click", function () {
+        controllerObject.linkCreateProjectForm(controllerObject);
       });
   }
 
+  linkViewAllProjects(controllerObject) {
+    controllerObject.view.displayProjects(controllerObject.model.projects);
+  }
+
   linkCreateProjectForm(controllerObject) {
-    document
-      .getElementById("linkCreateProjectForm")
-      .addEventListener("click", function (event) {
-        event.preventDefault();
-        controllerObject.view.createProjectForm();
-      });
+    controllerObject.view.createProjectForm();
+    console.log(document.getElementById("projectCreateButton"));
     document
       .getElementById("projectCreateButton")
       .addEventListener("click", function (event) {
         event.preventDefault();
         controllerObject.createProjectHandler();
+        console.log("test");
       });
   }
 
