@@ -41,9 +41,7 @@ export class View {
   }
 
   toggleActive() {
-    console.log(this.pages);
     this.pages.map((page) => {
-      console.log(page);
       let element = document.getElementById(`${page}`);
       element.classList.contains("active")
         ? element.classList.remove("active")
@@ -82,7 +80,6 @@ export class View {
       let subitem = document.createElement("div");
       subitem.innerHTML = `${project.name}`;
       document.getElementById("display").appendChild(subitem);
-      console.log(project);
     });
   }
 
@@ -102,9 +99,9 @@ export class View {
     this.toggleActive();
     this.clearDisplay();
     let divElements = [];
-    divElements.push(this.createLabel("projectName", "Project Name"));
+    divElements.push(this.createLabel("projectCreateName", "Project Name"));
     divElements.push(
-      this.createFormTextElement("projectName", "create project name")
+      this.createFormTextElement("projectCreateName", "create project name")
     );
     let formDiv = this.createFormGroupDiv();
     let formGroup = this.createFormGroup();
@@ -115,7 +112,7 @@ export class View {
 
     formGroup.appendChild(formDiv);
     formGroup.appendChild(
-      this.createFormButton("projectName", "Submit", "primary")
+      this.createFormButton("projectCreateButton", "submit", "primary")
     );
     document.getElementById("display").appendChild(formGroup);
   }
