@@ -25,8 +25,12 @@ export class Controller {
     document
       .getElementById("linkViewAllTodos")
       .addEventListener("click", function () {
-        controllerObject.linkViewAllTodos(controllerObject.model.projects);
+        controllerObject.linkViewAllTodos(controllerObject);
       });
+  }
+
+  linkViewAllTodos(controllerObject) {
+    controllerObject.view.viewAllToDos(controllerObject.model.projects);
   }
 
   linkViewAllProjects(controllerObject) {

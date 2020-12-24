@@ -1,3 +1,5 @@
+const { DateTime } = require("luxon");
+
 export class View {
   constructor() {
     this.pages = [
@@ -92,17 +94,36 @@ export class View {
 
   viewAllToDos(projects) {
     this.clearDisplay();
-    let divElements = [];
+    let display = document.getElementById("display");
     let todos = [];
     // collect all todos into a collection
     projects.map((project) =>
       project.todos.map((todo) => {
-        divElements.push(todo);
+        todos.push(todo);
       })
     );
     todos.forEach((todo) => {
-      let subitem = document.createElement("div");
-      let name = (document.createElement("div").innerHTML = `${todo.name}`);
+      let subDiv = document.createElement("div");
+      let name = document.createElement("h1");
+      name.innerHTML = `${todo.name}`;
+      subDiv.appendChild(name);
+      let description = document.createElement("div");
+      description.innerHTML = `${todo.description}`;
+      subDiv.appendChild(description);
+      let dueDate = document.createElement("div");
+      dueDate.innerHTML = `${todo.dueDate}`;
+      subDiv.appendChild(dueDate);
+      let priority = document.createElement("div");
+      priority.innerHTML = `${todo.priority}`;
+      subDiv.appendChild(priority);
+      let notes = document.createElement("div");
+      notes.innerHTML = `${todo.notes}`;
+      subDiv.appendChild(notes);
+      let checklist = document.createElement("div");
+      checklist.innerHTML = `${todo.checklist}`;
+      subDiv.appendChild(checklist);
+
+      display.appendChild(subDiv);
     });
   }
 
