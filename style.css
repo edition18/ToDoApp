@@ -3,3 +3,9 @@
   /* CSS padding properties are used to generate space around an element's content, inside of any defined borders.  */
   border-width: 0.2rem;
 }
+
+* {
+  border-color: black;
+  border-radius: 0.01px;
+  border-style: dotted;
+}

@@ -58,7 +58,7 @@ export class View {
     return formGroup;
   }
 
-  createLabel(id, name) {
+  createLabel(id = "", name) {
     let label = document.createElement("label");
     label.setAttribute("for", `${id}`);
     label.innerHTML = `${name}`;
@@ -95,35 +95,84 @@ export class View {
   viewAllToDos(projects) {
     this.clearDisplay();
     let display = document.getElementById("display");
-    let todos = [];
     // collect all todos into a collection
-    projects.map((project) =>
-      project.todos.map((todo) => {
-        todos.push(todo);
-      })
-    );
-    todos.forEach((todo) => {
-      let subDiv = document.createElement("div");
-      let name = document.createElement("h1");
-      name.innerHTML = `${todo.name}`;
-      subDiv.appendChild(name);
-      let description = document.createElement("div");
-      description.innerHTML = `${todo.description}`;
-      subDiv.appendChild(description);
-      let dueDate = document.createElement("div");
-      dueDate.innerHTML = `${todo.dueDate}`;
-      subDiv.appendChild(dueDate);
-      let priority = document.createElement("div");
-      priority.innerHTML = `${todo.priority}`;
-      subDiv.appendChild(priority);
-      let notes = document.createElement("div");
-      notes.innerHTML = `${todo.notes}`;
-      subDiv.appendChild(notes);
-      let checklist = document.createElement("div");
-      checklist.innerHTML = `${todo.checklist}`;
-      subDiv.appendChild(checklist);
+    projects.map((project) => {
+      let projectDiv = document.createElement("div");
+      let projectDivName = document.createElement("h2");
+      projectDivName.innerHTML = `${project.name}`;
 
-      display.appendChild(subDiv);
+      projectDiv.appendChild(projectDivName);
+      project.todos.map((todo) => {
+        let subDiv = document.createElement("div");
+        subDiv.setAttribute("id", `${project.name}&${todo.name}`);
+        //name
+        let name = document.createElement("h3");
+        name.setAttribute("id", `name`);
+        name.style.display = "inline-block";
+        name.innerHTML = `${todo.name}`;
+        subDiv.appendChild(name);
+
+        //luxon DateTIme object
+        let dueDate = document.createElement("p");
+        dueDate.setAttribute("id", `dueDate`);
+        dueDate.style.display = "block";
+        dueDate.style.cssFloat = "right";
+        dueDate.innerHTML = `${todo.dueDate.toLocaleString()}`;
+        subDiv.appendChild(dueDate);
+        subDiv.appendChild(document.createElement("br"));
+        //priority
+        let priority = document.createElement("p");
+        priority.setAttribute("id", `priority`);
+        priority.style.display = "block";
+        priority.style.textAlign = "right";
+        priority.style.width = "80px";
+        priority.style.cssFloat = "right";
+        priority.innerHTML = `${todo.priority}`;
+        if (priority.innerHTML == "high") {
+          priority.style.color = "red";
+        } else if (priority.innerHTML == "medium") {
+          priority.style.color = "orange";
+        } else {
+          priority.style.color = "black";
+        }
+
+        subDiv.appendChild(priority);
+
+        //label
+        subDiv.appendChild(this.createLabel("", "Done?"));
+        //checked??
+        let checked = document.createElement("input");
+        checked.setAttribute("id", `checked`);
+        checked.setAttribute("class", "mx-2");
+        checked.setAttribute("type", "checkbox");
+        checked.disabled = true;
+        todo.checked == true
+          ? (checked.checked = true)
+          : (checked.checked = false);
+        subDiv.appendChild(checked);
+        subDiv.appendChild(document.createElement("br")); // do multiple times
+        subDiv.appendChild(document.createElement("br")); // do multiple times
+
+        //description
+        let description = document.createElement("p");
+        description.setAttribute("id", `description`);
+        description.setAttribute("class", "lead");
+        description.innerHTML = `${todo.description}`;
+        subDiv.appendChild(description);
+
+        //notes
+        let notes = document.createElement("p");
+        notes.innerHTML = `${todo.notes}`;
+        subDiv.appendChild(notes);
+
+        //edit button
+        let editButton = this.createFormButton(`button`, "edit", "warning");
+        subDiv.appendChild(editButton);
+
+        //finally append
+        projectDiv.appendChild(subDiv);
+      });
+      display.appendChild(projectDiv);
     });
   }
 

@@ -1,3 +1,5 @@
+const { DateTime } = require("luxon");
+
 export class Model {
   constructor() {
     this.projects = [
@@ -7,18 +9,18 @@ export class Model {
           {
             name: `item1`,
             description: `desc1`,
-            dueDate: "11/11/2020",
+            dueDate: DateTime.local(2020, 12, 12),
             priority: "high",
             notes: "test1 notes",
-            checklist: false,
+            checked: true,
           },
           {
             name: `item2`,
             description: `desc2`,
-            dueDate: "11/11/2020",
+            dueDate: DateTime.local(2020, 12, 10),
             priority: "high",
             notes: "test2 notes",
-            checklist: false,
+            checked: false,
           },
         ],
       },
@@ -27,14 +29,14 @@ export class Model {
     ];
   }
 
-  createToDo(name, description, dueDate, priority, notes, checklist) {
+  createToDo(name, description, dueDate, priority, notes, checked) {
     const todo = {
       name: name,
       description: description,
       dueDate: dueDate,
       priority: priority,
       notes: notes,
-      checklist: checklist,
+      checked: checked,
     };
 
     return todo;

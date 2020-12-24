@@ -27,10 +27,67 @@ export class Controller {
       .addEventListener("click", function () {
         controllerObject.linkViewAllTodos(controllerObject);
       });
+
+    this.linkViewAllTodos(controllerObject);
   }
 
   linkViewAllTodos(controllerObject) {
     controllerObject.view.viewAllToDos(controllerObject.model.projects);
+    let buttons = document.getElementsByTagName("button");
+    for (let i = 0; i < buttons.length; i++) {
+      button[i].addEventListener("click", function () {
+        controllerObject.editTodo(buttons[i].parentNode.id);
+      });
+    }
+  }
+
+  editTodo(parentDivId) {
+    let controllerObject = this;
+
+    let parentNode = document.getElementById(parentDivId);
+
+    let childs = document.getElementById(parentDivId).childNodes;
+    console.log(childs);
+    const [projectName, todoName] = parentDivId.split("&");
+
+    for (let i = 0; i < childs.length; i++) {
+      if (childs[i].tagName == "H3") {
+        console.log(childs[i]);
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("placeholder", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "P") {
+        console.log(childs[i]);
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("placeholder", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "INPUT") {
+        childs[i].disabled = false;
+      } else if (childs[i].tagName == "BUTTON") {
+        let replacement = this.view.createFormButton(
+          parentDivId,
+          "done",
+          "info"
+        );
+        replacement.addEventListener("click", function (event) {
+          event.preventDefault();
+          controllerObject.editTodoHandler(parentDivId);
+        });
+        childs[i].replaceWith(replacement);
+      }
+    }
+    //can we convert all elements to free form text? or clickable checkbox
+
+    // const foundProject = this.model.projects.find(
+    //   (project) => (project.name = projectName)
+    // );
+    // const foundToDo = foundProject.find((todo) => (todo.name = todoName));
   }
 
   linkViewAllProjects(controllerObject) {
@@ -66,7 +123,6 @@ export class Controller {
 
   linkCreateProjectForm(controllerObject) {
     controllerObject.view.createProjectForm();
-    console.log(document.getElementById("projectCreateButton"));
     document
       .getElementById("projectCreateButton")
       .addEventListener("click", function (event) {
