@@ -23,7 +23,7 @@ export class Model {
         ],
       },
       { name: "Test Project 2", todos: [] },
-      { name: "Test Project 2", todos: [] },
+      { name: "Test Project 3", todos: [] },
     ];
   }
 

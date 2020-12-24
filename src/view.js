@@ -76,10 +76,14 @@ export class View {
     this.currentPage = "linkViewAllProjects";
     this.toggleActive();
     this.clearDisplay();
+    let display = document.getElementById("display");
     projects.map((project) => {
       let subitem = document.createElement("div");
       subitem.innerHTML = `${project.name}`;
-      document.getElementById("display").appendChild(subitem);
+      display.appendChild(subitem);
+      display.appendChild(
+        this.createFormButton(`${project.name}`, "delete", "danger")
+      );
     });
   }
 

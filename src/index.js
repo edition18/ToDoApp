@@ -10,4 +10,4 @@ const app = new Controller(new Model(), new View());
 // bind all other keys with their respective pages
 // app.view.displayProjects(app.model.projects);
 
-app.start(app); //pass itself as argument!!!
+app.start(); //pass itself as argument!!!

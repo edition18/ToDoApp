@@ -7,12 +7,14 @@ export class Controller {
     this.model.createProject(name);
   }
 
-  start(controllerObject) {
+  start() {
+    // create reference to current app object so it is easy to work with
+    let controllerObject = this;
     // add listeners for all of the buttons so that no error is thrown
-
     document
       .getElementById("linkViewAllProjects")
       .addEventListener("click", function () {
+        // this would refer to the element rather than the controller object
         controllerObject.linkViewAllProjects(controllerObject);
       });
     document
@@ -24,6 +26,34 @@ export class Controller {
 
   linkViewAllProjects(controllerObject) {
     controllerObject.view.displayProjects(controllerObject.model.projects);
+    controllerObject.bindProjectDeleteButton();
+  }
+
+  bindProjectDeleteButton() {
+    let controllerObject = this;
+    let listOfProjectNames = [];
+    controllerObject.model.projects.forEach((project) =>
+      listOfProjectNames.push(project.name)
+    );
+    listOfProjectNames.forEach((projectName) =>
+      document
+        .getElementById(projectName)
+        .addEventListener("click", function () {
+          console.log("test");
+          controllerObject.deleteProjectHandler(projectName);
+        })
+    );
+  }
+
+  deleteProjectHandler(projectName) {
+    console.log(this);
+    let filteredProjects = [];
+    this.model.projects.forEach((project) => {
+      project.name !== projectName ? filteredProjects.push(project) : "";
+    });
+    // replace array
+    this.model.projects = filteredProjects;
+    this.linkViewAllProjects(this);
   }
 
   linkCreateProjectForm(controllerObject) {
@@ -39,11 +69,10 @@ export class Controller {
 
   createProjectHandler() {
     let projectName = document.getElementById("projectCreateName").value;
-    console.log(projectName);
     if (projectName !== ``) {
       //check if already exists in array
       if (this.checkProjectExists(projectName)) {
-        console.log(`project already exists! add another project name!`);
+        alert(`project already exists! add another project name!`);
       } else {
         this.addToProjects(projectName);
         alert("project created");
@@ -60,7 +89,9 @@ export class Controller {
 
   checkProjectExists(projectName) {
     let listOfProjectNames = [];
-    this.model.projects.map((project) => listOfProjectNames.push(project.name));
+    this.model.projects.forEach((project) =>
+      listOfProjectNames.push(project.name)
+    );
     console.log(listOfProjectNames);
     return listOfProjectNames.includes(projectName.trim()) ? true : false;
   }
