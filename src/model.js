@@ -5,7 +5,7 @@ export class Model {
         name: "Test Project 1",
         todos: [
           {
-            title: `item1`,
+            name: `item1`,
             description: `desc1`,
             dueDate: "11/11/2020",
             priority: "high",
@@ -13,7 +13,7 @@ export class Model {
             checklist: false,
           },
           {
-            title: `item2`,
+            name: `item2`,
             description: `desc2`,
             dueDate: "11/11/2020",
             priority: "high",
@@ -27,9 +27,9 @@ export class Model {
     ];
   }
 
-  createToDo(title, description, dueDate, priority, notes, checklist) {
+  createToDo(name, description, dueDate, priority, notes, checklist) {
     const todo = {
-      title: title,
+      name: name,
       description: description,
       dueDate: dueDate,
       priority: priority,

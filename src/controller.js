@@ -22,6 +22,11 @@ export class Controller {
       .addEventListener("click", function () {
         controllerObject.linkCreateProjectForm(controllerObject);
       });
+    document
+      .getElementById("linkViewAllTodos")
+      .addEventListener("click", function () {
+        controllerObject.linkViewAllTodos(controllerObject.model.projects);
+      });
   }
 
   linkViewAllProjects(controllerObject) {
@@ -46,7 +51,6 @@ export class Controller {
   }
 
   deleteProjectHandler(projectName) {
-    console.log(this);
     let filteredProjects = [];
     this.model.projects.forEach((project) => {
       project.name !== projectName ? filteredProjects.push(project) : "";

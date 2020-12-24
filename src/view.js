@@ -63,12 +63,13 @@ export class View {
     return label;
   }
 
-  createFormButton(id, text, type) {
+  createFormButton(id, text, type, display = "block") {
     let button = document.createElement("button");
     button.innerHTML = `${text}`;
     button.setAttribute("id", `${id}`);
     button.setAttribute("class", "btn");
     button.setAttribute("class", `btn-${type}`);
+    button.style.display = `${display}`;
     return button;
   }
 
@@ -80,22 +81,29 @@ export class View {
     projects.map((project) => {
       let subitem = document.createElement("div");
       subitem.innerHTML = `${project.name}`;
+      subitem.style.display = "inline-block";
       display.appendChild(subitem);
       display.appendChild(
         this.createFormButton(`${project.name}`, "delete", "danger")
       );
+      display.appendChild(document.createElement("br"));
     });
   }
 
   viewAllToDos(projects) {
     this.clearDisplay();
     let divElements = [];
+    let todos = [];
     // collect all todos into a collection
     projects.map((project) =>
       project.todos.map((todo) => {
         divElements.push(todo);
       })
     );
+    todos.forEach((todo) => {
+      let subitem = document.createElement("div");
+      let name = (document.createElement("div").innerHTML = `${todo.name}`);
+    });
   }
 
   createProjectForm() {
