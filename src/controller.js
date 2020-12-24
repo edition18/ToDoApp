@@ -40,13 +40,12 @@ export class Controller {
   createProjectHandler() {
     let projectName = document.getElementById("projectCreateName").value;
     console.log(projectName);
-    console.log("test");
     if (projectName !== ``) {
       //check if already exists in array
-      if (this.checkProjectExists(projectName, this.model.projects)) {
+      if (this.checkProjectExists(projectName)) {
         console.log(`project already exists! add another project name!`);
       } else {
-        this.addToProjects(projectName, this);
+        this.addToProjects(projectName);
         alert("project created");
         projectName = " ";
       }
@@ -59,14 +58,14 @@ export class Controller {
     }
   }
 
-  checkProjectExists(projectName, projectsArray) {
+  checkProjectExists(projectName) {
     let listOfProjectNames = [];
-    projectsArray.map((project) => listOfProjectNames.push(project.name));
+    this.model.projects.map((project) => listOfProjectNames.push(project.name));
     console.log(listOfProjectNames);
     return listOfProjectNames.includes(projectName.trim()) ? true : false;
   }
 
-  addToProjects(projectName, controllerObject) {
-    controllerObject.model.createProject(projectName);
+  addToProjects(projectName) {
+    this.model.createProject(projectName);
   }
 }
