@@ -35,59 +35,32 @@ export class Controller {
     controllerObject.view.viewAllToDos(controllerObject.model.projects);
     let buttons = document.getElementsByTagName("button");
     for (let i = 0; i < buttons.length; i++) {
-      button[i].addEventListener("click", function () {
-        controllerObject.editTodo(buttons[i].parentNode.id);
+      buttons[i].addEventListener("click", function () {
+        controllerObject.view.viewEditToDo(
+          buttons[i].parentNode.id,
+          controllerObject
+        );
       });
     }
   }
 
-  editTodo(parentDivId) {
-    let controllerObject = this;
-
-    let parentNode = document.getElementById(parentDivId);
-
-    let childs = document.getElementById(parentDivId).childNodes;
-    console.log(childs);
+  editTodoHandler(parentDivId) {
     const [projectName, todoName] = parentDivId.split("&");
-
+    const proj = this.model.projects.find(
+      (project) => (project.name = projectName)
+    );
+    const todo = proj.todos.find((todo) => (todo.name = todoName));
+    let childs = document.getElementById(parentDivId).childNodes;
     for (let i = 0; i < childs.length; i++) {
-      if (childs[i].tagName == "H3") {
-        console.log(childs[i]);
-        let replacement = document.createElement("input");
-        replacement.setAttribute("type", `text`);
-        replacement.setAttribute("class", "form-control");
-        replacement.setAttribute("id", `${childs[i].id}`);
-        replacement.setAttribute("placeholder", `${childs[i].innerHTML}`);
-        childs[i].replaceWith(replacement);
-      } else if (childs[i].tagName == "P") {
-        console.log(childs[i]);
-        let replacement = document.createElement("input");
-        replacement.setAttribute("type", `text`);
-        replacement.setAttribute("class", "form-control");
-        replacement.setAttribute("id", `${childs[i].id}`);
-        replacement.setAttribute("placeholder", `${childs[i].innerHTML}`);
-        childs[i].replaceWith(replacement);
-      } else if (childs[i].tagName == "INPUT") {
-        childs[i].disabled = false;
-      } else if (childs[i].tagName == "BUTTON") {
-        let replacement = this.view.createFormButton(
-          parentDivId,
-          "done",
-          "info"
-        );
-        replacement.addEventListener("click", function (event) {
-          event.preventDefault();
-          controllerObject.editTodoHandler(parentDivId);
-        });
-        childs[i].replaceWith(replacement);
+      if (todo[childs[i].id]) {
+        if (childs[i].tagName == "CHECKED") {
+          todo[childs[i].id] = childs[i].checked;
+        } else {
+          todo[childs[i].id] = childs[i].value;
+        }
       }
     }
-    //can we convert all elements to free form text? or clickable checkbox
-
-    // const foundProject = this.model.projects.find(
-    //   (project) => (project.name = projectName)
-    // );
-    // const foundToDo = foundProject.find((todo) => (todo.name = todoName));
+    this.linkViewAllTodos(this);
   }
 
   linkViewAllProjects(controllerObject) {
@@ -105,7 +78,6 @@ export class Controller {
       document
         .getElementById(projectName)
         .addEventListener("click", function () {
-          console.log("test");
           controllerObject.deleteProjectHandler(projectName);
         })
     );
@@ -134,7 +106,6 @@ export class Controller {
   createProjectHandler() {
     let projectName = document.getElementById("projectCreateName").value;
     if (projectName !== ``) {
-      //check if already exists in array
       if (this.checkProjectExists(projectName)) {
         alert(`project already exists! add another project name!`);
       } else {
@@ -142,10 +113,6 @@ export class Controller {
         alert("project created");
         projectName = " ";
       }
-
-      // return error if so
-      // if not then add to array
-      // show alert that added succesfull
     } else {
       alert("please enter a project name");
     }

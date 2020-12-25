@@ -121,7 +121,7 @@ export class View {
         subDiv.appendChild(dueDate);
         subDiv.appendChild(document.createElement("br"));
         //priority
-        let priority = document.createElement("p");
+        let priority = document.createElement("h5");
         priority.setAttribute("id", `priority`);
         priority.style.display = "block";
         priority.style.textAlign = "right";
@@ -162,6 +162,7 @@ export class View {
 
         //notes
         let notes = document.createElement("p");
+        notes.setAttribute("id", `notes`);
         notes.innerHTML = `${todo.notes}`;
         subDiv.appendChild(notes);
 
@@ -174,6 +175,59 @@ export class View {
       });
       display.appendChild(projectDiv);
     });
+  }
+
+  viewEditToDo(parentDivId, controllerObject) {
+    let childs = document.getElementById(parentDivId).childNodes;
+
+    for (let i = 0; i < childs.length; i++) {
+      if (childs[i].tagName == "H3") {
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("value", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "P") {
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("value", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "H5") {
+        let replacement = document.createElement("select");
+        replacement.style.cssFloat = "right";
+        replacement.setAttribute("id", `${childs[i].id}`);
+        let option1 = document.createElement("option");
+        option1.value = "high";
+        option1.innerHTML = "high";
+        replacement.appendChild(option1);
+        let option2 = document.createElement("option");
+        option2.value = "medium";
+        option2.innerHTML = "medium";
+        replacement.appendChild(option2);
+        let option3 = document.createElement("option");
+        option3.value = "low";
+        option3.innerHTML = "low";
+        replacement.appendChild(option3);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "INPUT") {
+        childs[i].disabled = false;
+      } else if (childs[i].tagName == "BUTTON") {
+        let replacement = this.view.createFormButton(
+          parentDivId,
+          "done",
+          "info"
+        );
+        replacement.addEventListener("click", function (event) {
+          event.preventDefault();
+          controllerObject.editTodoHandler(parentDivId);
+        });
+        childs[i].replaceWith(replacement);
+      }
+    }
+    //can we convert all elements to free form text? or clickable checkbox
   }
 
   createProjectForm() {
@@ -197,5 +251,61 @@ export class View {
       this.createFormButton("projectCreateButton", "submit", "primary")
     );
     document.getElementById("display").appendChild(formGroup);
+  }
+  viewEditToDo(parentDivId, controllerObject) {
+    let parentNode = document.getElementById(parentDivId);
+
+    let childs = document.getElementById(parentDivId).childNodes;
+    const [projectName, todoName] = parentDivId.split("&");
+
+    for (let i = 0; i < childs.length; i++) {
+      if (childs[i].tagName == "H3") {
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("value", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "P") {
+        let replacement = document.createElement("input");
+        replacement.setAttribute("type", `text`);
+        replacement.setAttribute("class", "form-control");
+        replacement.setAttribute("id", `${childs[i].id}`);
+        replacement.setAttribute("value", `${childs[i].innerHTML}`);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "H5") {
+        let replacement = document.createElement("select");
+        replacement.style.cssFloat = "right";
+        replacement.setAttribute("id", `${childs[i].id}`);
+        let option1 = document.createElement("option");
+        option1.value = "high";
+        option1.innerHTML = "high";
+        replacement.appendChild(option1);
+        let option2 = document.createElement("option");
+        option2.value = "medium";
+        option2.innerHTML = "medium";
+        replacement.appendChild(option2);
+        let option3 = document.createElement("option");
+        option3.value = "low";
+        option3.innerHTML = "low";
+        replacement.appendChild(option3);
+        childs[i].replaceWith(replacement);
+      } else if (childs[i].tagName == "INPUT") {
+        childs[i].disabled = false;
+      } else if (childs[i].tagName == "BUTTON") {
+        let replacement = this.createFormButton(parentDivId, "done", "info");
+        replacement.addEventListener("click", function (event) {
+          event.preventDefault();
+          controllerObject.editTodoHandler(parentDivId);
+        });
+        childs[i].replaceWith(replacement);
+      }
+    }
+    //can we convert all elements to free form text? or clickable checkbox
+
+    // const foundProject = this.model.projects.find(
+    //   (project) => (project.name = projectName)
+    // );
+    // const foundToDo = foundProject.find((todo) => (todo.name = todoName));
   }
 }
