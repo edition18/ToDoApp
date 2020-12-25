@@ -80,17 +80,21 @@ export class Controller {
     );
 
     let todo = proj.todos.find((todo) => todo.name == todoName);
-    console.log(todo);
     let childs = document.getElementById(parentDivId).childNodes;
+    // console.log(todo);
+    // console.log(childs);
+
     for (let i = 0; i < childs.length; i++) {
+      console.log(childs[i].id);
       if (todo[childs[i].id]) {
-        if (childs[i].tagName == "CHECKED") {
-          todo[childs[i].id] = childs[i].checked;
-        } else {
-          todo[childs[i].id] = childs[i].value;
-        }
+        // truthy
+        todo[childs[i].id] = childs[i].value;
+      }
+      if (childs[i].id == "checkbox") {
+        todo["checked"] = childs[i].checked;
       }
     }
+    console.log(todo);
     this.linkViewAllTodos(this);
   }
 

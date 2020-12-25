@@ -242,7 +242,12 @@ export class View {
         replacement.appendChild(option3);
         childs[i].replaceWith(replacement);
       } else if (childs[i].tagName == "INPUT") {
-        childs[i].disabled = false;
+        let replacement = document.createElement("input");
+        replacement.setAttribute("id", `checkbox`);
+        replacement.setAttribute("class", "mx-2");
+        replacement.setAttribute("type", "checkbox");
+        childs[i].checked ? replacement.setAttribute("checked", "") : "";
+        childs[i].replaceWith(replacement);
       } else if (childs[i].tagName == "BUTTON" && childs[i].id == "edit") {
         let replacement = this.createFormButton(parentDivId, "done", "info");
         replacement.style.display = "inline-block";
