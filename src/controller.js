@@ -35,21 +35,52 @@ export class Controller {
     controllerObject.view.viewAllToDos(controllerObject.model.projects);
     let buttons = document.getElementsByTagName("button");
     for (let i = 0; i < buttons.length; i++) {
-      buttons[i].addEventListener("click", function () {
-        controllerObject.view.viewEditToDo(
-          buttons[i].parentNode.id,
-          controllerObject
-        );
-      });
+      if (buttons[i].id == "edit") {
+        buttons[i].addEventListener("click", function () {
+          controllerObject.view.viewEditToDo(
+            buttons[i].parentNode.id,
+            controllerObject
+          );
+        });
+      }
+      if (buttons[i].id == "delete") {
+        buttons[i].addEventListener("click", function () {
+          controllerObject.deleteTodoHandler(
+            buttons[i].parentNode.id,
+            controllerObject
+          );
+        });
+      }
     }
+  }
+
+  deleteTodoHandler(parentDivId, controllerObject) {
+    const [projectName, todoName] = parentDivId.split("&");
+    console.log(projectName);
+    console.log(todoName);
+    const proj = this.model.projects.find(
+      (project) => project.name == projectName
+    );
+
+    const todoToRemove = proj.todos.find((todo) => todo.name == todoName);
+    let filteredTodos = proj.todos.filter(
+      (todo) => todo.name !== todoToRemove.name
+    );
+
+    console.log(filteredTodos);
+    proj.todos = filteredTodos;
+    controllerObject.linkViewAllTodos(controllerObject);
   }
 
   editTodoHandler(parentDivId) {
     const [projectName, todoName] = parentDivId.split("&");
-    const proj = this.model.projects.find(
-      (project) => (project.name = projectName)
+
+    let proj = this.model.projects.find(
+      (project) => project.name == projectName
     );
-    const todo = proj.todos.find((todo) => (todo.name = todoName));
+
+    let todo = proj.todos.find((todo) => todo.name == todoName);
+    console.log(todo);
     let childs = document.getElementById(parentDivId).childNodes;
     for (let i = 0; i < childs.length; i++) {
       if (todo[childs[i].id]) {

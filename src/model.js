@@ -18,7 +18,7 @@ export class Model {
             name: `item2`,
             description: `desc2`,
             dueDate: DateTime.local(2020, 12, 10),
-            priority: "high",
+            priority: "low",
             notes: "test2 notes",
             checked: false,
           },
