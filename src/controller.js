@@ -27,8 +27,32 @@ export class Controller {
       .addEventListener("click", function () {
         controllerObject.linkViewAllTodos(controllerObject);
       });
+    document
+      .getElementById("linkCreateTodosForm")
+      .addEventListener("click", function () {
+        controllerObject.linkCreateTodoForm(controllerObject);
+      });
 
-    this.linkViewAllTodos(controllerObject);
+    this.linkCreateTodoForm(controllerObject);
+    this.linkSaveState(controllerObject);
+    this.linkLoadState(controllerObject);
+  }
+
+  linkSaveState(controllerObject) {
+    document.getElementById("saveState").addEventListener("click", function () {
+      console.log(controllerObject);
+      localStorage.setItem("myTodos", JSON.stringify(controllerObject));
+      let saved = localStorage.getItem("myTodos");
+      alert("saved");
+    });
+  }
+  linkLoadState(controllerObject) {
+    document.getElementById("loadState").addEventListener("click", function () {
+      let saved = JSON.parse(localStorage.getItem("myTodos"));
+      controllerObject.model.projects = saved.model.projects;
+      console.log(controllerObject);
+      alert("loaded");
+    });
   }
 
   linkViewAllTodos(controllerObject) {
@@ -85,13 +109,12 @@ export class Controller {
     // console.log(childs);
 
     for (let i = 0; i < childs.length; i++) {
-      console.log(childs[i].id);
       if (todo[childs[i].id]) {
-        // truthy
-        todo[childs[i].id] = childs[i].value;
-      }
-      if (childs[i].id == "checkbox") {
-        todo["checked"] = childs[i].checked;
+        if (childs[i].id == "checked") {
+          todo[childs[i].id] = childs[i].checked;
+        } else {
+          todo[childs[i].id] = childs[i].value;
+        }
       }
     }
     console.log(todo);
@@ -136,6 +159,34 @@ export class Controller {
         event.preventDefault();
         controllerObject.createProjectHandler();
       });
+  }
+
+  linkCreateTodoForm(controllerObject) {
+    controllerObject.view.createTodoForm(controllerObject);
+    document
+      .getElementById("todoCreateButton")
+      .addEventListener("click", function (event) {
+        event.preventDefault();
+        controllerObject.createTodoHandler();
+      });
+  }
+
+  createTodoHandler() {
+    console.log(document.getElementById("projectName").value);
+    let targetProject = this.model.projects.find(
+      (project) => project.name == document.getElementById("projectName").value
+    );
+
+    console.log(targetProject);
+    let createdTodo = this.model.createToDo(
+      document.getElementById("name").value,
+      document.getElementById("description").value,
+      document.getElementById("dueDate").value,
+      document.getElementById("priority").value,
+      document.getElementById("notes").value,
+      document.getElementById("checked").checked
+    );
+    targetProject.todos.push(createdTodo);
   }
 
   createProjectHandler() {

@@ -243,7 +243,7 @@ export class View {
         childs[i].replaceWith(replacement);
       } else if (childs[i].tagName == "INPUT") {
         let replacement = document.createElement("input");
-        replacement.setAttribute("id", `checkbox`);
+        replacement.setAttribute("id", `checked`);
         replacement.setAttribute("class", "mx-2");
         replacement.setAttribute("type", "checkbox");
         childs[i].checked ? replacement.setAttribute("checked", "") : "";
@@ -258,5 +258,111 @@ export class View {
         childs[i].replaceWith(replacement);
       }
     }
+  }
+  createTodoForm(controllerObject) {
+    this.currentPage = "linkCreateTodosForm";
+    this.toggleActive();
+    this.clearDisplay();
+    let namesOfProjects = [];
+    let todoFormArea = document.createElement("div");
+    document
+      .getElementById("display")
+      .appendChild(this.createLabel("", "Create Todo"));
+    document
+      .getElementById("display")
+      .appendChild(document.createElement("br"));
+    controllerObject.model.projects.forEach((project) => {
+      namesOfProjects.push(project.name);
+    });
+
+    //add projects available
+    let toggleProjectName = document.createElement("select");
+    toggleProjectName.setAttribute("id", `projectName`);
+    namesOfProjects.forEach((name) => {
+      let option = document.createElement("option");
+      option.value = name;
+      option.innerHTML = name;
+      toggleProjectName.appendChild(option);
+    });
+    todoFormArea.appendChild(this.createLabel("", "Project:"));
+    todoFormArea.appendChild(toggleProjectName);
+    todoFormArea.appendChild(document.createElement("br"));
+
+    //add todoName available
+    let todoNameLabel = this.createLabel("", "Todo Name:");
+    todoNameLabel.style.display = "inline";
+    todoFormArea.appendChild(todoNameLabel);
+    let todoName = this.createFormTextElement("name", "add a todo name");
+    todoName.style.width = "auto";
+    todoName.style.display = "inline";
+    todoFormArea.appendChild(todoName);
+
+    //add date
+    let date = this.createFormTextElement("dueDate", "dueDate");
+    date.style.width = "150px";
+    date.style.display = "inline";
+    date.style.cssFloat = "right";
+    todoFormArea.appendChild(date);
+    let dateLabel = this.createLabel("", "Date:");
+    dateLabel.style.display = "inline";
+    dateLabel.style.cssFloat = "right";
+    todoFormArea.appendChild(dateLabel);
+    todoFormArea.appendChild(document.createElement("br"));
+
+    // add checked
+    let doneLabel = this.createLabel("", "Done?");
+    doneLabel.style.display = "inline";
+    todoFormArea.appendChild(doneLabel);
+    let checked = document.createElement("input");
+    checked.setAttribute("id", `checked`);
+    checked.setAttribute("class", "mx-2");
+    checked.setAttribute("type", "checkbox");
+    checked.style.width = "auto";
+    checked.style.display = "inline";
+    todoFormArea.appendChild(checked);
+
+    //add priority
+    let priority = document.createElement("select");
+    priority.setAttribute("id", `priority`);
+    let prioritySet = ["low", "medium", "high"];
+    prioritySet.forEach((name) => {
+      let option = document.createElement("option");
+      option.value = name;
+      option.innerHTML = name;
+      priority.appendChild(option);
+    });
+
+    priority.style.width = "150px";
+    priority.style.display = "inline";
+    priority.style.cssFloat = "right";
+    todoFormArea.appendChild(priority);
+    let priorityLabel = this.createLabel("", "Priority:");
+    priorityLabel.style.display = "inline";
+    priorityLabel.style.cssFloat = "right";
+    todoFormArea.appendChild(priorityLabel);
+    todoFormArea.appendChild(document.createElement("br"));
+
+    //desc
+    let descriptionLabel = this.createLabel("", "Description");
+    todoFormArea.appendChild(descriptionLabel);
+    let description = this.createFormTextElement(
+      "description",
+      "add description"
+    );
+    todoFormArea.appendChild(description);
+    todoFormArea.appendChild(document.createElement("br"));
+    //notes
+    let notesLabel = this.createLabel("", "Notes");
+    todoFormArea.appendChild(notesLabel);
+    let notes = this.createFormTextElement("notes", "add notes");
+    todoFormArea.appendChild(notes);
+    todoFormArea.appendChild(document.createElement("br"));
+
+    //add button
+    todoFormArea.appendChild(
+      this.createFormButton("todoCreateButton", "create", "primary")
+    );
+    //append to display
+    document.getElementById("display").appendChild(todoFormArea);
   }
 }
